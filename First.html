@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Client</title>
+</head>
+<body>
+  <h1>WebSocket Client</h1>
+
+  <script>
+    const ws = new WebSocket('ws://localhost:8080');
+
+    ws.onopen = () => {
+      // Perform WebSocket GET request
+      const getRequest = { method: 'GET' };
+      ws.send(JSON.stringify(getRequest));
+    };
+
+    ws.onmessage = (event) => {
+      const responseData = JSON.parse(event.data);
+      console.log('Received WebSocket response:', responseData);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket Connection closed');
+    };
+
+    // Perform HTTP GET request
+    fetch('http://localhost:8080/api')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Received HTTP response:', data);
+      })
+      .catch(error => {
+        console.error('Error during HTTP request:', error);
+      });
+  </script>
+</body>
+</html>
