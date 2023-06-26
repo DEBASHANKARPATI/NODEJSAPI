@@ -1,35 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WebSocket Client</title>
+  <title>API Request Example</title>
 </head>
 <body>
-  <h1>WebSocket Client</h1>
-
+  <h1>API Request Example</h1>
   <script>
-    const ws = new WebSocket('ws://localhost:8080');
-
-    ws.onopen = () => {
-      // Perform WebSocket GET request
-      const getRequest = { method: 'GET' };
-      ws.send(JSON.stringify(getRequest));
+    const postData = {
+      UserID: 'Darshan',
+      Password:'123456',
+      CompanyID:'DesaniXR'
     };
+    // fetch('http://localhost:3000/api/GetCompanies',{
+    //    method:'GET'
+    // }).then(response=>console.log(response))
+    // .catch(error=>console.error("error:",error));
 
-    ws.onmessage = (event) => {
-      const responseData = JSON.parse(event.data);
-      console.log('Received WebSocket response:', responseData);
-    };
-
-    ws.onclose = () => {
-      console.log('WebSocket Connection closed');
-    };
-
-    // Perform HTTP GET request
-    fetch('http://localhost:8080/api')
+    // fetch('http://localhost:3000/api/LogIn', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(postData),
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log(data);
+    //     // Process the response data here
+    //   })
+    //   .catch(error => {
+    //     console.error('Error:', error);
+    //   });
+    fetch('http://localhost:3000/api/RegisterUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    })
       .then(response => response.json())
       .then(data => {
-        console.log('Received HTTP response:', data);
+        console.log(data);
+        // Process the response data here
       })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  </script>
+</body>
+</html>
+
+
       .catch(error => {
         console.error('Error during HTTP request:', error);
       });
