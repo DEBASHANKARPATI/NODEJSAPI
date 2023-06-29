@@ -1,0 +1,25 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "UserAuthPlugIn",
+	"Description": "Gives functionality for log in , http requests for login , register etc.",
+	"Category": "Other",
+	"CreatedBy": "DebaShankar",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": true,
+        "EnabledByDefault": true,
+	"Modules": [
+		{
+			"Name": "UserAuthPlugIn",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
