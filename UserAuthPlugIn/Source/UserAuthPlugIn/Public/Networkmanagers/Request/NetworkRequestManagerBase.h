@@ -41,19 +41,22 @@ public:
 	FONRequestCompleteDelegate OnRequestCompleteCallback;
 #pragma endregion
 
-
-	
-
 protected:
 	// Called when the game starts or when spawned
 #pragma region MemberFunctions
 	virtual void BeginPlay() override;
-	virtual void StartRequets(const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject ,const TEnumAsByte<ERequestType> RequestType);
+	virtual void StartRequets( const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject, const TEnumAsByte<ERequestType> RequestType,UObject* RequestingObject);
 	virtual void OnRequestProcessed(const FHttpResponsePtr& Response);
+	
+
 #pragma endregion
+	//Stores a refference of Requesting object
+	UObject* M_RequestingObject = nullptr;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 private:
 	void OnRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
 };

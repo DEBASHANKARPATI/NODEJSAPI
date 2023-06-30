@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include <Networkmanagers/Request/LogInRequest.h>
 #include "LOGIN.generated.h"
 
 /**
@@ -14,6 +13,7 @@ class UEditableText;
 class UButton;
 class UComboBoxString;
 class ALogInRequest;
+class AGetCompaniesRequest;
 UCLASS()
 class USERAUTHPLUGIN_API ULOGIN : public UUserWidget
 {
@@ -32,16 +32,21 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UComboBoxString* CompaniesComboBox;
-  
 public:
 	UFUNCTION()
-	void GetCompaniesFromNodeServer(const FString& Response);
+	void PopulateCompanyNames(const TArray<FString>& Companies);
 	UFUNCTION()
 	void OnLogIN();
 
 	UFUNCTION()
 	void SetLoginInstance(ALogInRequest* LoginRequest,const FString& LogInURL);
+
+	UFUNCTION()
+	void SetGetCompaniesInstance(AGetCompaniesRequest* GetCompaniesRequest, const FString& GetCompaniesURL);
+
 private:
 	FString M_LogInURL;
+	FString M_GetCompaniesURL;
+	AGetCompaniesRequest* M_GetCompaniesRequest;
 	ALogInRequest* M_LoginRequest;
 };

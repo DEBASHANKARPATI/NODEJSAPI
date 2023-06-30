@@ -13,7 +13,7 @@ void ALogInRequest::BeginPlay()
 }
 
 
-void ALogInRequest::StartRequets(const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject, const TEnumAsByte<ERequestType> RequestType)
+void ALogInRequest::StartRequets(const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject, const TEnumAsByte<ERequestType> RequestType , UObject* RequestingObject)
 {
 	if (auto PlayerController = GetWorld()->GetFirstPlayerController())
 	{
@@ -22,10 +22,10 @@ void ALogInRequest::StartRequets(const FString& RequestURL, const TSharedPtr<FJs
 			if (Pawn->IsLocallyControlled()) // Check for client
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Started request for getting companies from url"));
-				Super::StartRequets(RequestURL, JsonObject, RequestType);
+				Super::StartRequets(RequestURL, JsonObject, RequestType,RequestingObject);
 			}
 		}
 	}
 }
 
-
+// Implement Callback method  

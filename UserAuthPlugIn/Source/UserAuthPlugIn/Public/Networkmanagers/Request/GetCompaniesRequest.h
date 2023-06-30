@@ -15,16 +15,18 @@ class USERAUTHPLUGIN_API AGetCompaniesRequest : public ANetworkRequestManagerBas
 {
 	GENERATED_BODY()
 public:
-	TArray<FString> GetCompanies();
-	TSharedPtr<FJsonObject> DefaultsJsonObject;
 #pragma region exposedfields
 	
 	UPROPERTY(EditAnywhere)
 	FString URL;//URL of the end point to hit to
 	
-	void StartRequets(const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject, const TEnumAsByte<ERequestType> RequestType) override;
-	
+	void StartRequets(const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject, const TEnumAsByte<ERequestType> RequestType , UObject* RequestingObject) override;
+	const TArray<FString>& GetCompanies() const;
 #pragma endregion
 protected:
 	void BeginPlay() override;
+private:
+	UFUNCTION()
+	void GetCompaniesFromNodeServer(const FString& ResponseString);
+	TArray<FString> Companies;
 };

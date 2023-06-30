@@ -8,6 +8,8 @@
 #include <Kismet/GameplayStatics.h>
 #include <Json.h>
 #include <JsonUtilities.h>
+#include <Networkmanagers/Request/LogInRequest.h>
+#include <Networkmanagers/Request/GetCompaniesRequest.h>
 
 bool ULOGIN::Initialize()
 {
@@ -23,28 +25,11 @@ bool ULOGIN::Initialize()
     return false;
 }
 
-void ULOGIN::GetCompaniesFromNodeServer(const FString& ResponseString)
+void ULOGIN::PopulateCompanyNames(const TArray<FString>& Companies)
 {
-	if (!ResponseString.IsEmpty())
+	for (FString Company : Companies)
 	{
-		//This Response string would be as [{CompanyID:'XYZ'},{CompanyID:'XYZ2'}] which is an array of json objects
-		// Companies get fetched in a format of array of JSON Objects
-		TArray<TSharedPtr<FJsonValue>> JSONResponseObject;
-		TSharedRef<TJsonReader<>> JSONReader = TJsonReaderFactory<>::Create(ResponseString);
-		if (FJsonSerializer::Deserialize(JSONReader, JSONResponseObject))
-		{
-			//now that we have data in our JSON object we can access it using key
-			//UE_LOG(LogTemp,Warning,TEXT("%s"),JSONResponseObject.Get().)
-			for (TSharedPtr<FJsonValue>& JSONObject : JSONResponseObject)
-			{
-				//if the element is an object then let's parse the company ID from it
-				if (JSONObject.Get()->Type == EJson::Object)
-				{
-					UE_LOG(LogTemp, Warning, TEXT("%s"), *JSONObject->AsObject().Get()->TryGetField("CompanyID").Get()->AsString());
-					CompaniesComboBox->AddOption(JSONObject->AsObject().Get()->TryGetField("CompanyID").Get()->AsString());
-				}
-			}
-		}
+		CompaniesComboBox->AddOption(Company);
 	}
 }
 
@@ -67,7 +52,7 @@ void ULOGIN::OnLogIN()
 
 	if (M_LoginRequest)
 	{
-		M_LoginRequest->StartRequets(M_LogInURL, LogInJsonObject, ERequestType::POST);
+		M_LoginRequest->StartRequets(M_LogInURL, LogInJsonObject, ERequestType::POST, this);
 	}
 	
 }
@@ -76,4 +61,11 @@ void ULOGIN::SetLoginInstance(ALogInRequest* LoginRequest, const FString& LogInU
 {
 	M_LogInURL = LogInURL;
 	M_LoginRequest = LoginRequest;
+}
+
+void ULOGIN::SetGetCompaniesInstance(AGetCompaniesRequest* GetCompaniesRequest, const FString& GetCompaniesURL)
+{
+	M_GetCompaniesURL = GetCompaniesURL;
+	M_GetCompaniesRequest = GetCompaniesRequest;
+	M_GetCompaniesRequest->StartRequets(M_GetCompaniesURL, NULL, ERequestType::GET, this);
 }

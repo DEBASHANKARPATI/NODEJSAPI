@@ -9,11 +9,16 @@ ANetworkRequestManagerBase::ANetworkRequestManagerBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	
- 
+  
 }
 
-void ANetworkRequestManagerBase::StartRequets(const FString& RequestURL , const TSharedPtr<FJsonObject> JsonObject , const TEnumAsByte<ERequestType> RequestType)
+void ANetworkRequestManagerBase::StartRequets(const FString& RequestURL , const TSharedPtr<FJsonObject> JsonObject , const TEnumAsByte<ERequestType> RequestType , UObject* RequestingObject)
 {
+	if (RequestingObject)
+	{
+		M_RequestingObject = RequestingObject;
+	}
+
 	auto Http = &FHttpModule::Get();
 	auto Request = Http->CreateRequest();
 	// Get the passed ULR from the frontEnd

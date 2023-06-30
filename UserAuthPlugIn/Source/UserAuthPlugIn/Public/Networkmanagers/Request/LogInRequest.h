@@ -17,7 +17,7 @@ class USERAUTHPLUGIN_API ALogInRequest : public ANetworkRequestManagerBase
 public:
 
 #pragma region exposedfields
-	void StartRequets(const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject, const TEnumAsByte<ERequestType> RequestType) override;
+	void StartRequets(const FString& RequestURL, const TSharedPtr<FJsonObject> JsonObject, const TEnumAsByte<ERequestType> RequestType , UObject* RequestingObject) override;
 	
 #pragma endregion
 protected:
