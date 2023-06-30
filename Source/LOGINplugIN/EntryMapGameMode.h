@@ -36,6 +36,4 @@ public:
 private:
 	ULOGIN* LoginWidget = nullptr;
 	ARequestObjectCache* RequestObjectsCache=nullptr;
-	UFUNCTION()
-	void GetCompaniesFromNodeServer(const FString& ResponseString);
 };
